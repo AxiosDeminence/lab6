@@ -10,7 +10,7 @@ $(document).ready(function() {
  */
 function initializePage() {
 	$('.project a').click(addProjectDetails);
-
+	
 	// $('#colorBtn').click(randomizeColors);
 }
 
@@ -26,5 +26,13 @@ function addProjectDetails(e) {
 	// get rid of 'project' from the front of the id 'project3'
 	var idNumber = projectID.substr('project'.length);
 
-	console.log("User clicked on project " + idNumber);
+	$.get('/project/' + idNumber, projCallback);
+}
+
+function projCallback(response) {
+	var htmlString = '<p>' + response.title + '</p>' +
+					 '<p>' + response.date  + '</p>' +
+					 '<img src="' + response.image + '" align="left" class="img-responsive" style="max-width:75%;margin-right:8px;">' +
+					 response.summary;
+	$('#project' + response.id + ' .details').html(htmlString);
 }
